@@ -45,4 +45,4 @@ Thumbs.db
 **/*transcript
 !**/
 webapp/pycache/*
-.ipynb_checkpoints
+.ipynb_checkpoints/*
