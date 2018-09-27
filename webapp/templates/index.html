@@ -42,15 +42,21 @@
     <br>
     <div>
       <!-- Again, here it writes variable 'result' to the page-->
-      {% if result %}
+      {% if topic_result %}
       <h4>Video classified as:</h4>
-      <p>{{ result }}</p>
+      <p>{{ topic_result }}</p>
       {% endif %}
     </div>
     <div>
       {% if partial_transcript %}
       <h4>Partial transcript:</h4>
       <p>{{ partial_transcript }}</p>
+      {% endif %}
+    </div>
+    <div>
+      {% if views %}
+      <h4>Views:</h4>
+      <p>{{ views }}</p>
       {% endif %}
     </div>
   </body>

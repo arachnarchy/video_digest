@@ -1,11 +1,4 @@
-import argparse
-import io
-import json
-import os
-
 from google.cloud import language
-import numpy
-import six
 
 def classify(text, verbose=True):
     """Classify the input text into categories. """
