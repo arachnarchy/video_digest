@@ -46,3 +46,7 @@ Thumbs.db
 !**/
 webapp/pycache/*
 .ipynb_checkpoints/*
+
+# Big Files #
+######################
+text_classification/glove.6B.100d.txt
