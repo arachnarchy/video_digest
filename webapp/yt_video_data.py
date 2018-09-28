@@ -24,7 +24,6 @@ def get_video_data(yt_id):
 
         d = {'title' : video_data['items'][0]['snippet']['title'],
              'channelId' : video_data['items'][0]['snippet']['channelId'],
-             'tags' : video_data['items'][0]['snippet']['tags'],
              'description' : video_data['items'][0]['snippet']['description'],
              'views' : video_data['items'][0]['statistics']['viewCount'],
              'likes' : video_data['items'][0]['statistics']['likeCount'],
