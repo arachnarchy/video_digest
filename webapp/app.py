@@ -13,6 +13,7 @@ import topic_via_GC
 from youtube_to_gc import youtube_to_gc, list_blobs
 from transcribe_gcs import transcribe_gcs
 from yt_video_data import get_video_data
+from GC_sentiment import analyze_sentiment
 
 
 app = Flask(__name__)
@@ -25,6 +26,10 @@ def index():
     topic_result = []
     partial_transcript = []
     views = []
+    t_sentiment = []
+    t_magnitude_n = []
+    c_sentiment = []
+    c_magnitude_n = []
 
     if request.method == "POST":
         # get url that the user has entered
@@ -63,12 +68,20 @@ def index():
         topic_result = topic_via_GC.classify(transcript)
 
         # GET video data & comments ############################################
-
         vid_data = get_video_data(youtube_id)
         tags = vid_data['tags'][0:3]
         views = vid_data['views']
 
+        # SENTIMENT on transcript ##############################################
+        t_sentiment, t_magnitude = analyze_sentiment(transcript)
+        t_magnitude_n = round(t_magnitude / len(transcript), 5)
+        t_sentiment = round(t_sentiment, 3)
 
+
+        # SENTIMENT on comments ##############################################
+        c_sentiment, c_magnitude = analyze_sentiment(vid_data['comments'])
+        c_magnitude_n = round(c_magnitude / len(vid_data['comments']), 5)
+        c_sentiment = round(c_sentiment, 3)
 
 
     # render the actual page, passing the variable to the output in index.html
@@ -77,7 +90,11 @@ def index():
                             errors=errors,
                             topic_result=topic_result,
                             partial_transcript=partial_transcript,
-                            views = views)
+                            views = views,
+                            t_sentiment = t_sentiment,
+                            t_magnitude_n = t_magnitude_n,
+                            c_sentiment = c_sentiment,
+                            c_magnitude_n = c_magnitude_n)
 
 
 

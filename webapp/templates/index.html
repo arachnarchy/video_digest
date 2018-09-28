@@ -47,18 +47,35 @@
       <p>{{ topic_result }}</p>
       {% endif %}
     </div>
+
     <div>
       {% if partial_transcript %}
       <h4>Partial transcript:</h4>
       <p>{{ partial_transcript }}</p>
       {% endif %}
     </div>
+
     <div>
       {% if views %}
       <h4>Views:</h4>
       <p>{{ views }}</p>
       {% endif %}
     </div>
+
+    <div>
+      {% if t_sentiment %}
+      <h4>Transcript sentiment:</h4>
+      <p>score: {{ t_sentiment }}, magnitude: {{ t_magnitude_n }}</p>
+      {% endif %}
+    </div>
+
+    <div>
+      {% if c_sentiment %}
+      <h4>Comments sentiment:</h4>
+      <p>score: {{ c_sentiment }}, magnitude: {{ c_magnitude_n }}</p>
+      {% endif %}
+    </div>
+
   </body>
 
 </html>
