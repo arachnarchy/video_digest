@@ -16,6 +16,7 @@ from yt_video_data import get_video_data
 from GC_sentiment import analyze_sentiment
 from classify_tfidf import classify_tfidf
 from parse_yt_url import crop_video_id
+from bad_word_finder import bad_word_finder
 
 
 app = Flask(__name__)
@@ -34,6 +35,7 @@ def index():
     c_magnitude_n = []
     edu_result = []
     pol_result = []
+    bw_result = []
 
     if request.method == "POST":
         # get url that the user has entered
@@ -80,6 +82,10 @@ def index():
         t_magnitude_n = round(t_magnitude / len(transcript), 5)
         t_sentiment = round(t_sentiment, 3)
 
+        # BADWORDS in transcript ###############################################
+        bws, bwc, bwp = bad_word_finder(transcript)
+        bw_result = 'Found ' + str(bwc) + ' bad words in transcript.'
+
         # SENTIMENT on comments ################################################
         c_sentiment, c_magnitude = analyze_sentiment(vid_data['comments'])
         c_magnitude_n = round(c_magnitude / len(vid_data['comments']), 5)
@@ -104,7 +110,8 @@ def index():
                             c_sentiment = c_sentiment,
                             c_magnitude_n = c_magnitude_n,
                             edu_result = edu_result,
-                            pol_result = pol_result)
+                            pol_result = pol_result,
+                            bw_result = bw_result)
 
 
 
