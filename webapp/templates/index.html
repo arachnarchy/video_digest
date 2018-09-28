@@ -64,21 +64,23 @@
                                         <p>{{ topic }}</p>
                                       {% endfor %}
                                   {% endif %}
-                                </div>
+                                </div> <hr/>
 
                                 <div>
                                   <h4>Transcript sentiment:</h4>
+                                  <p> Sign of scores indicates positive or negative sentiments expressed
+                                      (Placeholder for figures)</p>
                                   {% if t_sentiment %}
-                                  <p>score: {{ t_sentiment }}, magnitude: {{ t_magnitude_n }}</p>
+                                  <p> score: {{ t_sentiment }}, magnitude: {{ t_magnitude_n }}</p>
                                   {% endif %}
-                                </div>
+                                </div> <hr/>
 
                                 <div>
                                   <h4>Comments sentiment:</h4>
                                   {% if c_sentiment %}
                                   <p>score: {{ c_sentiment }}, magnitude: {{ c_magnitude_n }}</p>
                                   {% endif %}
-                                </div>
+                                </div> <hr/>
 
                                 <div>
                                   <h4>Bad Words:</h4>
@@ -97,11 +99,14 @@
                                         <iframe src= {{ "https://www.youtube.com/embed/" + youtube_id }}  frameborder="0" width="640px" height="360px"></iframe>
                                         {% endif %}
 
-                                      </div>
-                                      {% if youtube_id %}
-                                      <!--Div that will hold the gauges-->
-                                      <div id="chart_div" align='center'></div>
-                                      {% endif %}
+                                      </div> <hr/>
+
+                                         <h4 align="center">Content Modules</h4>
+                                        {% if youtube_id %}
+                                        <!--Div that will hold the gauges-->
+                                        <div id="chart_div" align='center'></div>
+                                        <p weight = 'bold'>Add more modules!</p><hr/>
+                                        {% endif %}
 
                                       <div>
                                         {% if partial_transcript %}

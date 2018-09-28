@@ -12,4 +12,4 @@ def sentiment_plot(score, magnitude, filename):
     plt.fill([-1,0,0,-1], [0,0,ymax,ymax], 'r', alpha=0.1, edgecolor='r')
     plt.fill([1,0,0,1], [0,0,ymax,ymax], 'g', alpha=0.1, edgecolor='r')
 
-    savefig(filename)
+    plt.savefig('static/' + filename)
