@@ -1,6 +1,6 @@
 from google.cloud import language
 
-def classify(text, verbose=True):
+def classify(text):
     """Classify the input text into categories. """
 
     language_client = language.LanguageServiceClient()
@@ -19,11 +19,20 @@ def classify(text, verbose=True):
         # be treated as a sparse vector.
         result[category.name] = category.confidence
 
-    if verbose:
-        print(text)
-        for category in categories:
-            print(u'=' * 20)
-            print(u'{:<16}: {}'.format('category', category.name))
-            print(u'{:<16}: {}'.format('confidence', category.confidence))
 
-    return result
+    tags_found = list(result.keys())
+
+    if len(tags_found) > 5:
+        tags_found = tags_found[0:5]
+
+    tf = []
+    for topic in tags_found:
+        topics = tf.append(topic.rsplit('/',1)[1])
+
+    tags_conf = []
+    for tag in tags_found:
+        c = tags_conf.append(result[str(tag)])
+
+    # tags_found = [s.strip('/') for s in tags_found]
+
+    return tf, tags_conf

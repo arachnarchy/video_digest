@@ -11,19 +11,22 @@
              google.charts.setOnLoadCallback(drawChart);
 
              function drawChart() {
+               var tfidf_edu = {{ results['edu'] | safe }}
+               var tfidf_pol = {{ results['pol'] | safe }}
 
                var data = google.visualization.arrayToDataTable([
                  ['Label', 'Value'],
-                 ['edu vs fluff', 50],
-                 ['left vs right', 50]
+                 ['edu vs fluff', {v: tfidf_edu, f: ''}],
+                 ['left vs right', {v: tfidf_pol, f: ''}]
                ]);
 
                var options = {
-                 width: 640, height: 200,
-                 greenFrom: 0, greenTo: 20, greenColor: '#5495ff',
+                 width: 500, height: 200,
+                 greenFrom: -100, greenTo: -80, greenColor: '#5495ff',
                  redFrom: 80, redTo: 100,
-                 yellowFrom:20, yellowTo: 90,
-                 minorTicks: 5
+                 minorTicks: 5,
+                 min: -100,
+                 max: 100
                };
 
                var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
@@ -37,7 +40,6 @@
                <div id = "container">
                     <div id = "header">
                          <h1>video digest</h1>
-                         <p> Insight Data Science Project, Daniel Zurek</p>
                     </div>
                         <div id = "content">
                             <div id = "left">
@@ -54,31 +56,33 @@
                                 <h4>{{ error }}</h4>
                                 {% endfor %}
 
-                                <div>
+                                <h4>Video topics classified as:</h4>
+                                <div id = 'video_tags'>
                                   <!-- Again, here it writes variable 'result' to the page-->
-                                  {% if topic_result %}
-                                  <h4>Video classified as:</h4>
-                                  <p>{{ topic_result }}</p>
+                                  {% if results %}
+                                      {% for topic in results['topics_found'] %}
+                                        <p>{{ topic }}</p>
+                                      {% endfor %}
                                   {% endif %}
                                 </div>
 
                                 <div>
-                                  {% if t_sentiment %}
                                   <h4>Transcript sentiment:</h4>
+                                  {% if t_sentiment %}
                                   <p>score: {{ t_sentiment }}, magnitude: {{ t_magnitude_n }}</p>
                                   {% endif %}
                                 </div>
 
                                 <div>
-                                  {% if c_sentiment %}
                                   <h4>Comments sentiment:</h4>
+                                  {% if c_sentiment %}
                                   <p>score: {{ c_sentiment }}, magnitude: {{ c_magnitude_n }}</p>
                                   {% endif %}
                                 </div>
 
                                 <div>
+                                  <h4>Bad Words:</h4>
                                   {% if bw_result %}
-                                  <h4>Bad Words</h4>
                                   <p>{{ bw_result }}</p>
                                   {% endif %}
                                 </div>
@@ -126,7 +130,7 @@
                             </div>
                         </div>
                     <div id = "footer">
-                        Copyright &copy; Daniel B. Zurek, 2018
+                        Insight Data Science Project, &copy; Daniel B. Zurek, 2018
                     </div>
                </div>
           </body>

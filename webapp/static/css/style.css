@@ -12,6 +12,7 @@ h1, h2, h3{
   width: 1000px;
   margin-left: auto;
   margin-right: auto;
+  padding: 10px;
 }
 
 #header{
@@ -30,6 +31,8 @@ h1, h2, h3{
   width: 280px;
   float: left;
   padding: 10px;
+  border-radius: 25px;
+  border: 1px solid #34495E;
 }
 
 #right{
@@ -37,12 +40,21 @@ h1, h2, h3{
   width: 640px;
   float: right;
   padding: 10px;
+  border-radius: 25px;
+  border: 1px solid #34495E;
 }
 
 #footer{
   clear: both;
   padding: 10px;
   background-color: #AEB6BF;
+  color: white;
+  font-size: 12px;
+}
+
+#video_tags{
+  font-weight: bold;
+  font-size: 16px;
   color: white;
 }
 

@@ -17,6 +17,7 @@ from GC_sentiment import analyze_sentiment
 from classify_tfidf import classify_tfidf
 from parse_yt_url import crop_video_id
 from bad_word_finder import bad_word_finder
+from sentiment_plots import sentiment_plot
 
 
 app = Flask(__name__)
@@ -33,9 +34,8 @@ def index():
     t_magnitude_n = []
     c_sentiment = []
     c_magnitude_n = []
-    edu_result = []
-    pol_result = []
     bw_result = []
+    results = {}
 
     if request.method == "POST":
         # get url that the user has entered
@@ -72,7 +72,7 @@ def index():
              transcript=myfile.read().replace('\n', '')
 
         partial_transcript = transcript[:280] + '...'
-        topic_result = topic_via_GC.classify(transcript)
+        results['topics_found'], results['topics_conf'] = topic_via_GC.classify(transcript)
 
         # GET video data & comments ############################################
         vid_data = get_video_data(youtube_id)
@@ -81,6 +81,8 @@ def index():
         t_sentiment, t_magnitude = analyze_sentiment(transcript)
         t_magnitude_n = round(t_magnitude / len(transcript), 5)
         t_sentiment = round(t_sentiment, 3)
+
+        sentiment_plot(t_sentiment, t_magnitude_n, 'sentiment_t.png')
 
         # BADWORDS in transcript ###############################################
         bws, bwc, bwp = bad_word_finder(transcript)
@@ -93,10 +95,18 @@ def index():
 
         # TF-IDF on transcript #################################################
         cat_edu, prob_edu = classify_tfidf(transcript, 'edu')
-        edu_result = 'This transcript was classified as ' + cat_edu + ', with a probability of ' + str(prob_edu)
+        if cat_edu == 'edu':
+            edu = prob_edu * (-100)
+        else: edu = prob_edu * 100
+        results['edu'] = edu
+        # edu_result = 'This transcript was classified as ' + cat_edu + ', with a probability of ' + str(prob_edu)
 
         cat_pol, prob_pol = classify_tfidf(transcript, 'pol')
-        pol_result = 'This transcript was classified as ' + cat_pol + ', with a probability of ' + str(prob_pol)
+        if cat_pol == 'left':
+            pol = prob_pol * (-100)
+        else: pol = prob_pol * 100
+        results['pol'] = pol
+        # pol_result = 'This transcript was classified as ' + cat_pol + ', with a probability of ' + str(prob_pol)
 
     # render the actual page, passing the variable to the output in index.html
     return render_template('index.html',
@@ -109,8 +119,7 @@ def index():
                             t_magnitude_n = t_magnitude_n,
                             c_sentiment = c_sentiment,
                             c_magnitude_n = c_magnitude_n,
-                            edu_result = edu_result,
-                            pol_result = pol_result,
+                            results = results,
                             bw_result = bw_result)
 
 
