@@ -55,7 +55,26 @@ h1, h2, h3, h4{
 #video_tags{
   font-weight: bold;
   font-size: 16px;
-  color: orange;
+  color: yellow;
+}
+
+#modules{
+  display:block;
+  width:100%;
+  height:200px;
+  display: flex;
+}
+
+#chart_edu{
+  float: left;
+}
+
+#chart_pol{
+  float: center;
+}
+
+.float-right {
+  margin-right: auto;
 }
 
 /* .container * {

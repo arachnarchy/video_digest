@@ -80,7 +80,7 @@ def index():
         # SENTIMENT on transcript ##############################################
         t_sentiment, t_magnitude = analyze_sentiment(transcript)
         t_magnitude_n = round(t_magnitude / len(transcript), 5)
-        t_sentiment = round(t_sentiment, 3)
+        t_sentiment = round(t_sentiment, 3) + 0.0000001
 
         sentiment_plot(t_sentiment, t_magnitude_n, 'sentiment_t.png')
 
@@ -91,7 +91,7 @@ def index():
         # SENTIMENT on comments ################################################
         c_sentiment, c_magnitude = analyze_sentiment(vid_data['comments'])
         c_magnitude_n = round(c_magnitude / len(vid_data['comments']), 5)
-        c_sentiment = round(c_sentiment, 3)
+        c_sentiment = round(c_sentiment, 3) + 0.0000001
         sentiment_plot(c_sentiment, c_magnitude_n, 'sentiment_c.png')
 
         # TF-IDF on transcript #################################################
