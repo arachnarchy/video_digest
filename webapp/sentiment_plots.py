@@ -18,5 +18,5 @@ def sentiment_plot(score, magnitude, filename):
 
     plt.tight_layout()
 
-    plt.savefig('static/' + filename, transparent=True)
+    plt.savefig('static/plots/' + filename, transparent=True)
     plt.close()

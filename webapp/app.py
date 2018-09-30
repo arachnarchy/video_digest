@@ -57,18 +57,18 @@ def index():
             youtube_to_gc(youtube_id)
 
         # If no local transcript available, transcribe audio in GC bucket
-        static_list = os.listdir('static/')
-        if youtube_id + '_t.txt' not in static_list:
+        transcript_list = os.listdir('static/transcripts/')
+        if youtube_id + '_t.txt' not in transcript_list:
             audio_file = 'gs://audio_a/tests/' + filename
             t, c = transcribe_gcs(audio_file)
 
             # save transcript to file (should be SQL)
-            transcript = open("static/" + youtube_id + "_t.txt", "w")
+            transcript = open("static/transcripts/" + youtube_id + "_t.txt", "w")
             transcript.write(t)
             transcript.close()
 
         # CLASSIFY topic from transcript #######################################
-        with open("static/" + youtube_id + "_t.txt", 'r') as myfile:
+        with open("static/transcripts/" + youtube_id + "_t.txt", 'r') as myfile:
              transcript=myfile.read().replace('\n', '')
 
         partial_transcript = transcript[:280] + '...'

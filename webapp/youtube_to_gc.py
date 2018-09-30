@@ -1,6 +1,7 @@
 from pytube import YouTube
 from pydub import AudioSegment
 from google.cloud import storage
+import os
 
 def list_blobs(bucket_name):
     """Lists all the blobs in the bucket."""
@@ -37,3 +38,19 @@ def youtube_to_gc(yt_id):
     bucket = storage_client.get_bucket('audio_a')
     blob = bucket.blob('tests/' + filename + '.wav')
     blob.upload_from_filename(filename + '.wav')
+
+    # delete temp audio files
+    mp4_file= filename + '.mp4'
+    wav_file= filename + '.wav'
+
+    ## If file exists, delete it ##
+    if os.path.isfile(mp4_file):
+        os.remove(mp4_file)
+    else:    ## Show an error ##
+        print("Error: %s file not found" % mp4_file)
+
+    ## If file exists, delete it ##
+    if os.path.isfile(wav_file):
+        os.remove(wav_file)
+    else:    ## Show an error ##
+        print("Error: %s file not found" % wav_file)
