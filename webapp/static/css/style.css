@@ -3,7 +3,7 @@ body{
   font-family: Helvetica, Arial, sans-serif;
 }
 
-h1, h2, h3{
+h1, h2, h3, h4{
   margin: 0;
 }
 
@@ -55,7 +55,7 @@ h1, h2, h3{
 #video_tags{
   font-weight: bold;
   font-size: 16px;
-  color: white;
+  color: orange;
 }
 
 /* .container * {

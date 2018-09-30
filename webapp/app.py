@@ -17,7 +17,7 @@ from GC_sentiment import analyze_sentiment
 from classify_tfidf import classify_tfidf
 from parse_yt_url import crop_video_id
 from bad_word_finder import bad_word_finder
-#from sentiment_plots import sentiment_plot
+from sentiment_plots import sentiment_plot
 
 
 app = Flask(__name__)
@@ -82,7 +82,7 @@ def index():
         t_magnitude_n = round(t_magnitude / len(transcript), 5)
         t_sentiment = round(t_sentiment, 3)
 
-        #sentiment_plot(t_sentiment, t_magnitude_n, 'sentiment_t.png')
+        sentiment_plot(t_sentiment, t_magnitude_n, 'sentiment_t.png')
 
         # BADWORDS in transcript ###############################################
         bws, bwc, bwp = bad_word_finder(transcript)
@@ -92,6 +92,7 @@ def index():
         c_sentiment, c_magnitude = analyze_sentiment(vid_data['comments'])
         c_magnitude_n = round(c_magnitude / len(vid_data['comments']), 5)
         c_sentiment = round(c_sentiment, 3)
+        sentiment_plot(c_sentiment, c_magnitude_n, 'sentiment_c.png')
 
         # TF-IDF on transcript #################################################
         cat_edu, prob_edu = classify_tfidf(transcript, 'edu')

@@ -9,7 +9,14 @@ def sentiment_plot(score, magnitude, filename):
 
     ax.yaxis.set_visible(False)
 
+    plt.fill([-1,1,1,-1], [0,0,ymax,ymax], 'w', alpha=1)
     plt.fill([-1,0,0,-1], [0,0,ymax,ymax], 'r', alpha=0.1, edgecolor='r')
     plt.fill([1,0,0,1], [0,0,ymax,ymax], 'g', alpha=0.1, edgecolor='r')
 
-    plt.savefig('static/' + filename)
+    ax.text(-0.95, ymax/3, 'Negative', fontsize=15, color='red', alpha=0.5)
+    ax.text(0.75, ymax/3, 'Positive', fontsize=15, color='green', alpha=0.5)
+
+    plt.tight_layout()
+
+    plt.savefig('static/' + filename, transparent=True)
+    plt.close()

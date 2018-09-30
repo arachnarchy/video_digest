@@ -16,7 +16,7 @@
 
                var data = google.visualization.arrayToDataTable([
                  ['Label', 'Value'],
-                 ['edu vs fluff', {v: tfidf_edu, f: ''}],
+                 ['info vs fluff', {v: tfidf_edu, f: ''}],
                  ['left vs right', {v: tfidf_pol, f: ''}]
                ]);
 
@@ -56,7 +56,7 @@
                                 <h4>{{ error }}</h4>
                                 {% endfor %}
 
-                                <h4>Video topics classified as:</h4>
+                                <h4>Transcript topics classified as:</h4>
                                 <div id = 'video_tags'>
                                   <!-- Again, here it writes variable 'result' to the page-->
                                   {% if results %}
@@ -67,25 +67,16 @@
                                 </div> <hr/>
 
                                 <div>
-                                  <h4>Transcript sentiment:</h4>
-                                  <p> Sign of scores indicates positive or negative sentiments expressed
-                                      (Placeholder for figures)</p>
-                                  {% if t_sentiment %}
-                                  <p> score: {{ t_sentiment }}, magnitude: {{ t_magnitude_n }}</p>
-                                  {% endif %}
-                                </div> <hr/>
-
-                                <div>
-                                  <h4>Comments sentiment:</h4>
-                                  {% if c_sentiment %}
-                                  <p>score: {{ c_sentiment }}, magnitude: {{ c_magnitude_n }}</p>
-                                  {% endif %}
-                                </div> <hr/>
-
-                                <div>
                                   <h4>Bad Words:</h4>
                                   {% if bw_result %}
                                   <p>{{ bw_result }}</p>
+                                  {% endif %}
+                                </div>
+
+                                <div>
+                                  <h4>Partial transcript:</h4>
+                                  {% if partial_transcript %}
+                                  <p>{{ partial_transcript }}</p>
                                   {% endif %}
                                 </div>
 
@@ -108,12 +99,21 @@
                                         <p weight = 'bold'>Add more modules!</p><hr/>
                                         {% endif %}
 
-                                      <div>
-                                        {% if partial_transcript %}
-                                        <h4>Partial transcript:</h4>
-                                        <p>{{ partial_transcript }}</p>
-                                        {% endif %}
-                                      </div>
+                                        <div>
+                                          <h4>Transcript sentiment:</h4>
+                                          {% if t_sentiment %}
+                                          <!-- <p> score: {{ t_sentiment }}, magnitude: {{ t_magnitude_n }}</p> -->
+                                          <img src="static/sentiment_t.png"  style='height: 100%; width: 100%; object-fit: cover'/>
+                                          {% endif %}
+                                        </div> <hr/>
+
+                                        <div>
+                                          <h4>Comments sentiment:</h4>
+                                          {% if c_sentiment %}
+                                          <!-- <p> score: {{ t_sentiment }}, magnitude: {{ t_magnitude_n }}</p> -->
+                                          <img src="static/sentiment_c.png"  style='height: 100%; width: 100%; object-fit: cover'/>
+                                          {% endif %}
+                                        </div> <hr/>
                                 </div>
 
                                 <div id = "tfidf">
