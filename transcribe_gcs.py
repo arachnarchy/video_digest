@@ -2,11 +2,15 @@
 from google.cloud import speech
 from google.cloud.speech import enums
 from google.cloud.speech import types
+from google.oauth2 import service_account
+import os
+import json
 
 def transcribe_gcs(gcs_uri):
     """Asynchronously transcribes the audio file specified by the gcs_uri."""
 
-    client = speech.SpeechClient()
+    #client = speech.SpeechClient.()
+    client = speech.SpeechClient.from_service_account_json("resources/wav/scratchlogs.json")
 
     audio = types.RecognitionAudio(uri=gcs_uri)
     config = types.RecognitionConfig(

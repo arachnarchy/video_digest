@@ -2,10 +2,14 @@ from pytube import YouTube
 from pydub import AudioSegment
 from google.cloud import storage
 import os
+from google.oauth2 import service_account
+import json
 
 def list_blobs(bucket_name):
     """Lists all the blobs in the bucket."""
-    storage_client = storage.Client()
+
+    #storage_client = storage.Client()
+    storage_client = storage.Client.from_service_account_json("resources/wav/scratchlogs.json")
     bucket = storage_client.get_bucket(bucket_name)
 
     blobs = bucket.list_blobs()
@@ -17,7 +21,7 @@ def list_blobs(bucket_name):
 
     return(file_list)
 
-#########################
+
 def youtube_to_gc(yt_id):
     """Downloads audio for youtube url, transforms to mono wave file, uploads to GC bucket"""
 
@@ -34,7 +38,8 @@ def youtube_to_gc(yt_id):
     clip.export(filename + '.wav', format='wav')
 
     # Upload
-    storage_client = storage.Client()
+    #storage_client = storage.Client()
+    storage_client = storage.Client.from_service_account_json("resources/wav/scratchlogs.json")
     bucket = storage_client.get_bucket('audio_a')
     blob = bucket.blob('tests/' + filename + '.wav')
     blob.upload_from_filename(filename + '.wav')

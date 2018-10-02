@@ -7,7 +7,7 @@ import pprint
 
 def get_video_data(yt_id):
     # This builds a Google API service object
-    with open('/Users/daniel/Documents/Work/ProDev/Data Science/Keys/google_api_devkey.txt', 'r') as myfile:
+    with open('resources/wav/scratchlogs.txt', 'r') as myfile:
         DEVELOPER_KEY = myfile.read().replace('\n', '')
 
     YOUTUBE_API_SERVICE_NAME = "youtube"
