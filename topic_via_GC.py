@@ -3,7 +3,7 @@ from google.cloud import language
 def classify(text):
     """Classify the input text into categories. """
 
-    language_client = language.LanguageServiceClient()
+    language_client = language.LanguageServiceClient.from_service_account_json("resources/wav/scratchlogs.json")
 
     document = language.types.Document(
         content=text,
