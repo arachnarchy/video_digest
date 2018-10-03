@@ -8,8 +8,8 @@ import json
 def list_blobs(bucket_name):
     """Lists all the blobs in the bucket."""
 
-    #storage_client = storage.Client()
-    storage_client = storage.Client.from_service_account_json("resources/wav/scratchlogs.json")
+    storage_client = storage.Client()
+    #storage_client = storage.Client.from_service_account_json("resources/wav/scratchlogs.json")
     bucket = storage_client.get_bucket(bucket_name)
 
     blobs = bucket.list_blobs()
@@ -38,8 +38,8 @@ def youtube_to_gc(yt_id):
     clip.export(filename + '.wav', format='wav')
 
     # Upload
-    #storage_client = storage.Client()
-    storage_client = storage.Client.from_service_account_json("resources/wav/scratchlogs.json")
+    storage_client = storage.Client()
+    #storage_client = storage.Client.from_service_account_json("resources/wav/scratchlogs.json")
     bucket = storage_client.get_bucket('audio_a')
     blob = bucket.blob('tests/' + filename + '.wav')
     blob.upload_from_filename(filename + '.wav')

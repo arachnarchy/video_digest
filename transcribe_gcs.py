@@ -9,8 +9,8 @@ import json
 def transcribe_gcs(gcs_uri):
     """Asynchronously transcribes the audio file specified by the gcs_uri."""
 
-    #client = speech.SpeechClient.()
-    client = speech.SpeechClient.from_service_account_json("resources/wav/scratchlogs.json")
+    client = speech.SpeechClient()
+    #client = speech.SpeechClient.from_service_account_json("resources/wav/scratchlogs.json")
 
     audio = types.RecognitionAudio(uri=gcs_uri)
     config = types.RecognitionConfig(

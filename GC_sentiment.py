@@ -5,7 +5,8 @@ def analyze_sentiment(content):
     import six
     import sys
 
-    client = language.LanguageServiceClient.from_service_account_json("resources/wav/scratchlogs.json")
+    client = language.LanguageServiceClient()
+    #client = language.LanguageServiceClient.from_service_account_json("resources/wav/scratchlogs.json")
 
     # content = 'Your text to analyze, e.g. Hello, world!'
 
