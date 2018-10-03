@@ -28,4 +28,5 @@ def transcribe_gcs(gcs_uri):
         transcription_str += ' ' + format(result.alternatives[0].transcript)
         confidence_metric = format(result.alternatives[0].confidence)
 
+    print("Transcript received")
     return transcription_str, confidence_metric

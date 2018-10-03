@@ -30,6 +30,7 @@ def get_video_data(yt_id):
              'dislikes': video_data['items'][0]['statistics']['dislikeCount'],
              'n_comments' : video_data['items'][0]['statistics']['commentCount']}
 
+        print("YouTube metadata scanned")
         return d
 
 
@@ -66,6 +67,7 @@ def get_video_data(yt_id):
 
         comments_all = ' '.join(comments)
 
+        print("YouTube comments scanned")
         return comments_all
 
     metadata = get_metadata(yt_id)

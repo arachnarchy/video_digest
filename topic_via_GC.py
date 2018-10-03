@@ -36,4 +36,5 @@ def classify(text):
 
     # tags_found = [s.strip('/') for s in tags_found]
 
+    print("Topics analysis done")
     return tf, tags_conf

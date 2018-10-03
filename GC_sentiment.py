@@ -19,4 +19,5 @@ def analyze_sentiment(content):
     response = client.analyze_sentiment(document)
     sentiment = response.document_sentiment
 
+    print("Sentiment analysis done")
     return sentiment.score, sentiment.magnitude

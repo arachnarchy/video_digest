@@ -31,11 +31,13 @@ def youtube_to_gc(yt_id):
     yt = YouTube(url)
     filename = yt_id
     yt.streams.filter(only_audio=True).first().download(filename=filename)
+    print("YouTube audio downloaded")
 
     # Transform
     clip =  AudioSegment.from_file(filename + ".mp4")
     clip = clip.set_channels(1) # convert to mono for GCS
     clip.export(filename + '.wav', format='wav')
+    print("YouTube audio mono created")
 
     # Upload
     storage_client = storage.Client()
@@ -43,6 +45,7 @@ def youtube_to_gc(yt_id):
     bucket = storage_client.get_bucket('audio_a')
     blob = bucket.blob('tests/' + filename + '.wav')
     blob.upload_from_filename(filename + '.wav')
+    print("YouTube audio mono uploaded")
 
     # delete temp audio files
     mp4_file= filename + '.mp4'
@@ -59,3 +62,5 @@ def youtube_to_gc(yt_id):
         os.remove(wav_file)
     else:    ## Show an error ##
         print("Error: %s file not found" % wav_file)
+
+    print("Temp audio files removed")

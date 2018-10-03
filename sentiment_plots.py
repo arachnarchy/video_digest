@@ -22,3 +22,4 @@ def sentiment_plot(score, magnitude, filename):
 
     plt.savefig('static/plots/' + filename, transparent=True)
     plt.close()
+    print("Sentiment plots created")
