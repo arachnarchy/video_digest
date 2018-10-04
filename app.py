@@ -31,8 +31,9 @@ def get_data():
     youtube_id = crop_video_id(url)
 
     # Initiate queue #########
-    redis_conn = Redis()
-    q = Queue(connection=redis_conn)
+    #redis_conn = Redis()
+    #q = Queue(connection=redis_conn)
+    q = Queue(connection=conn)
     ##########################
 
     job = q.enqueue_call(func=scoop, args=(youtube_id,), result_ttl=5000)
