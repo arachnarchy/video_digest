@@ -1,211 +1,65 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html ng-app="ScoopTubeApp">
 
     <head>
       <title>ScoopTube</title>
        <link rel="stylesheet" type = "text/css" href="static/css/style.css" />
 
-       <!-- Pol gauge graph -->
-       <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-       <script type="text/javascript">
-             google.charts.load('current', {'packages':['gauge']});
-             google.charts.setOnLoadCallback(drawChart);
-
-             function drawChart() {
-               var tfidf_pol = {{ results['pol'] | safe }}
-
-               var data = google.visualization.arrayToDataTable([
-                 ['Label', 'Value'],
-                 ['left vs right', {v: tfidf_pol, f: ''}]
-               ]);
-
-               var options = {
-                 width: 250, height: 200,
-                 greenFrom: -100, greenTo: -80, greenColor: '#5495ff',
-                 redFrom: 80, redTo: 100,
-                 minorTicks: 5,
-                 min: -100,
-                 max: 100
-               };
-
-               var chart = new google.visualization.Gauge(document.getElementById('chart_pol'));
-
-               chart.draw(data, options);
-             }
-        </script>
-
-        <!-- Edu gauge graph -->
-        <script type="text/javascript">
-              google.charts.load('current', {'packages':['gauge']});
-              google.charts.setOnLoadCallback(drawChart);
-
-              function drawChart() {
-                var tfidf_edu = {{ results['edu'] | safe }}
-
-                var data = google.visualization.arrayToDataTable([
-                  ['Label', 'Value'],
-                  ['info vs fluff', {v: tfidf_edu, f: ''}]
-                ]);
-
-                var options = {
-                  width: 250, height: 200,
-                  greenFrom: -100, greenTo: -80, greenColor: '#5495ff',
-                  redFrom: 80, redTo: 100,
-                  minorTicks: 5,
-                  min: -100,
-                  max: 100
-                };
-
-                var chart = new google.visualization.Gauge(document.getElementById('chart_edu'));
-
-                chart.draw(data, options);
-              }
-         </script>
 
     </head>
-          <body>
+          <body ng-controller="ScoopTubeController">
                <div id = "container">
                     <div id = "header">
                       <img src='static/ScoopTube-white-small.png'/>
                          <!-- <h1>video digest</h1> -->
                     </div>
                         <div id = "content">
-                            <div id = "left">
                               Enter a YouTube URL to run a content analysis. <hr/>
                                 <!-- text entry form, passes variable 'ytID' to app.py -->
-                                <form role="form" method='POST' action='/'>
+                                <form role="form" ng-submit="getResults()">
                                   <div class="form-group">
-                                    <input type="text" name="ytID" placeholder="Enter youtube URL" style="max-width: 300px;" autofocus required>
+                                    <input type="text" ng-model="url" name="url" class="form-control" id="url-box" placeholder="Enter URL..." style="max-width: 300px;">
+                                    <!-- <input type="text" name="ytID" placeholder="Enter youtube URL" style="max-width: 300px;" autofocus required> -->
                                   </div>
                                     <button type="submit">Submit</button>
-                                </form>
-                                  {% for error in errors %}
-                                <h4>{{ error }}</h4>
-                                {% endfor %}
-
-                                <p>Tick content axes to analyze</p>
-
-                                Info vs Fluff <input type="checkbox" id="edu_check"  onclick="edu_func()"><br>
-                                Left vs Right <input type="checkbox" id="pol_check"  onclick="pol_func()">
-
-                                <hr/>
-<!--
-                                <p id="edu_text" style="display:none">Edu analysis lined up</p>
-                                <p id="pol_text" style="display:none">Pol analysis lined up</p> -->
-
-                                <script>
-                                function edu_func() {
-                                    var edu_checkBox = document.getElementById("edu_check");
-                                    // var edu_text = document.getElementById("edu_text");
-                                    if (edu_checkBox.checked == true){
-                                        // edu_text.style.display = "block";
-                                        chart_edu.style.display = "block";
-                                    } else {
-                                       // edu_text.style.display = "none";
-                                       chart_edu.style.display = "none";
-                                    }
-                                }
-                                </script>
-
-                                <script>
-                                function pol_func() {
-                                    var pol_checkBox = document.getElementById("pol_check");
-                                    // var pol_text = document.getElementById("pol_text");
-                                    if (pol_checkBox.checked == true){
-                                        // pol_text.style.display = "block";
-                                        chart_pol.style.display = "block";
-                                    } else {
-                                       // pol_text.style.display = "none";
-                                       chart_pol.style.display = "none";
-                                    }
-                                }
-                                </script>
-
-                                <h4>Topics extracted</h4>
-                                <div id = 'video_tags'>
-                                  <!-- Again, here it writes variable 'result' to the page-->
-                                  {% if results %}
-                                      {% for topic in results['topics_found'] %}
-                                        <p>{{ topic }}</p>
-                                      {% endfor %}
-                                  {% endif %}
-                                </div> <hr/>
+                                </form><br>
 
                                 <div>
-                                  <h4>Bad Words</h4>
-                                  {% if bw_result %}
-                                  <p>{{ bw_result }}</p>
-                                  {% endif %}
-                                </div><hr/>
+                                  <h2>Outcomes</h2>
+                                  <br>
 
-                                <div>
-                                  <h4>Partial transcript</h4>
-                                  {% if partial_transcript %}
-                                  <p>{{ partial_transcript }}</p>
-                                  {% endif %}
-                                </div>
 
-                            </div>
-                            <div id = "right">
-                                <div id = "video">
-                                      <div>
-                                        <!-- block gets rendered if youtube_id variable is present -->
-                                        {% if youtube_id %}
-                                        <!-- Python code goes in double curlies -->
-                                        <iframe src= {{ "https://www.youtube.com/embed/" + youtube_id }}  frameborder="0" width="640px" height="360px"></iframe>
-                                        {% endif %}
-                                      </div><hr/>
+                                  <div id="results">
 
-                                      <div id = 'modules'>
-                                           <h4 align="center">Content Modules</h4>
-                                        {% if youtube_id %}
-                                            <!--Div that will hold the gauges-->
-                                            <div id="chart_edu" style="display:none"> </div>
-                                            <div id="chart_pol" style="display:none"> </div>
-                                            <!-- <img src="static/plus.png" class=float-right style='height: 180px;'/> -->
-                                            {% endif %}
+                                      <h4>Info vs Shallow outcome</h4>
+                                       <p>Outcome is: {{ '{{outcomes["edu"]}}' }} <br> Negative is informational, positive shallow.</p>
 
-                                      </div>
-                                      <p style='text-align:right; text-decoration: underline;' >Add more modules!</p><hr/>
+                                       <h4>Political bias outcome</h4>
+                                        <p>Outcome is: {{ '{{outcomes["pol"]}}' }} <br> Negative is left, positive right.</p><hr/>
 
-                                        <div>
-                                          <h4>Audio transcript sentiment</h4>
-                                          {% if t_sentiment %}
-                                          <!-- <p> score: {{ t_sentiment }}, magnitude: {{ t_magnitude_n }}</p> -->
-                                          <img src="static/plots/sentiment_t.png"  style='height: 100%; width: 100%; object-fit: cover'/>
-                                          {% endif %}
-                                        </div> <hr/>
+                                  </div>
 
-                                        <div>
-                                          <h4>Comments sentiment</h4>
-                                          {% if c_sentiment %}
-                                          <!-- <p> score: {{ t_sentiment }}, magnitude: {{ t_magnitude_n }}</p> -->
-                                          <img src="static/plots/sentiment_c.png"  style='height: 100%; width: 100%; object-fit: cover'/>
-                                          {% endif %}
-                                        </div> <hr/>
-                                </div>
+                                    {% raw %}
+                                  <div>
+                                    <h4>Bad Words</h4>
+                                    <p>{{ outcomes['bw_result'] }}</p>
+                                    {% endraw %}
+                                  </div><hr/>
 
-                                <div id = "tfidf">
-                                      <div>
-                                        {% if edu_result %}
-                                        <h4>Educational vs Recreational:</h4>
-                                        <p>{{ edu_result }}</p>
-                                        {% endif %}
-                                      </div>
+                                  <div>
+                                    <h4>Audio transcript sentiment</h4>
+                                    <p>Sentiment score: {{ '{{outcomes["t_sentiment"]}}' }}.</p>
+                                    <h4>Comments sentiment</h4>
+                                    <p>Sentiment score: {{ '{{outcomes["c_sentiment"]}}' }}.</p>
+                                  </div> <hr/>
 
-                                      <div>
-                                        {% if pol_result %}
-                                        <h4>Politics: Left vs Right</h4>
-                                        <p>{{ pol_result }}</p>
-                                        {% endif %}
-                                      </div>
 
-                                    </div>
-                            </div>
                         </div>
                     <div id = "footer">
                         Insight Data Science Project, &copy; Daniel B. Zurek, 2018
                     </div>
                </div>
+               <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+               <script src="{{ url_for('static', filename='main.js') }}"></script>
           </body>
 </html>

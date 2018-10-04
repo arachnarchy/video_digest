@@ -6,10 +6,7 @@ def analyze_sentiment(content):
     import sys
 
     client = language.LanguageServiceClient()
-    #client = language.LanguageServiceClient.from_service_account_json("resources/wav/scratchlogs.json")
-
-    # content = 'Your text to analyze, e.g. Hello, world!'
-
+    
     if isinstance(content, six.binary_type):
         content = content.decode('utf-8')
 

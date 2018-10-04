@@ -10,7 +10,6 @@ def transcribe_gcs(gcs_uri):
     """Asynchronously transcribes the audio file specified by the gcs_uri."""
 
     client = speech.SpeechClient()
-    #client = speech.SpeechClient.from_service_account_json("resources/wav/scratchlogs.json")
 
     audio = types.RecognitionAudio(uri=gcs_uri)
     config = types.RecognitionConfig(
@@ -20,7 +19,8 @@ def transcribe_gcs(gcs_uri):
 
     operation = client.long_running_recognize(config, audio)
 
-    response = operation.result(timeout=90)
+    print('Waiting for operation to complete...')
+    response = operation.result()
 
     transcription_str = ''
     confidence_metric = 0
