@@ -7,6 +7,9 @@
   .controller('ScoopTubeController', ['$scope', '$log', '$http', '$timeout',
     function($scope, $log, $http, $timeout) {
 
+    $scope.submitButtonText = 'Submit';
+    $scope.loading = false;
+
     $scope.getResults = function() {
 
       $log.log("test");
@@ -19,6 +22,9 @@
         success(function(results) {
           $log.log(results);
           get_analysis_output(results);
+          $scope.outcomes = null;
+          $scope.loading = true;
+          $scope.submitButtonText = 'Loading...';
 
         }).
         error(function(error) {
@@ -39,6 +45,8 @@
               $log.log(data, status);
             } else if (status === 200){
               $log.log(data);
+              $scope.loading = false;
+              $scope.submitButtonText = "Submit";
               $scope.outcomes = data;
               $timeout.cancel(timeout);
               return false;

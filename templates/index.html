@@ -21,7 +21,10 @@
                                     <input type="text" ng-model="url" name="url" class="form-control" id="url-box" placeholder="Enter URL..." style="max-width: 300px;">
                                     <!-- <input type="text" name="ytID" placeholder="Enter youtube URL" style="max-width: 300px;" autofocus required> -->
                                   </div>
-                                    <button type="submit">Submit</button>
+                                    {% raw %}
+                                    <button type="submit" class="btn btn-primary"
+                                    ng-disabled="loading">{{ submitButtonText }}</button>
+                                    {% endraw %}
                                 </form><br>
 
                                 <div>
