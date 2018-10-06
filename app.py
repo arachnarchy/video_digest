@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 from rq import Connection, Queue
 from rq.job import Job
 import time
@@ -23,6 +23,7 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
+# starts scoop function when url is entered
 @app.route('/start', methods=['POST'])
 def get_data():
     # get url
@@ -30,26 +31,12 @@ def get_data():
     url = data["url"]
     youtube_id = crop_video_id(url)
 
-    # Initiate queue #########
-    #redis_conn = Redis()
-    #q = Queue(connection=redis_conn)
     q = Queue(connection=conn)
-    ##########################
 
     job = q.enqueue_call(func=scoop, args=(youtube_id,), result_ttl=5000)
     return job.get_id()
 
-
-# @app.route('/outcomes', methods=['GET', 'POST'])
-# def outcomes():
-#     results = {}
-#
-#     return render_template('outcomes.html',
-#                             youtube_id=youtube_id,
-#                             results = results)
-
-
-# outputs raw results on new page
+# outputs raw results as string on new page when job is finished
 @app.route("/results/<job_key>", methods=['GET'])
 def get_results(job_key):
     job = Job.fetch(job_key, connection=conn)

@@ -16,10 +16,11 @@ def scoop(youtube_id):
     from GC_sentiment import analyze_sentiment
     from classify_tfidf import classify_tfidf
     from bad_word_finder import bad_word_finder
-    from sentiment_plots import sentiment_plot
+    from sentiment_plots import sentiment_plot, axis_plot
 
     results = {}
     results['youtube_id'] = youtube_id
+    results['youtube_url'] = 'https://www.youtube.com/watch?v=' + youtube_id
     filename = youtube_id + '.wav'
 
     # If not already in bucket: download audio, make .wav, upload to GC
@@ -47,6 +48,7 @@ def scoop(youtube_id):
 
     # GET video data & comments ############################################
     vid_data = get_video_data(youtube_id)
+    results['title'] = vid_data['title']
 
     # SENTIMENT on transcript ##############################################
     t_sentiment, t_magnitude = analyze_sentiment(transcript)
@@ -73,12 +75,14 @@ def scoop(youtube_id):
         edu = prob_edu * (-100)
     else: edu = prob_edu * 100
     results['edu'] = edu
+    axis_plot(edu, 'Info', 'Shallow', 'edu.png')
 
     cat_pol, prob_pol = classify_tfidf(transcript, 'pol')
     if cat_pol == 'left':
         pol = prob_pol * (-100)
     else: pol = prob_pol * 100
     results['pol'] = pol
+    axis_plot(pol, 'Left', 'Right', 'pol.png')
 
     results = json.dumps(results)
 

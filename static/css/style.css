@@ -25,23 +25,24 @@ h1, h2, h3, h4{
 
 #content{
   padding: 10px;
+  background-color: white;
 }
 
 #left{
-  background-color: #D6DBDF;
+  background-color: WhiteSmoke;
   width: 280px;
   float: left;
   padding: 10px;
-  border-radius: 25px;
+  border-radius: 15px;
   border: 1px solid #34495E;
 }
 
 #right{
-  background-color: #D6DBDF;
+  background-color: WhiteSmoke;
   width: 640px;
   float: right;
   padding: 10px;
-  border-radius: 25px;
+  border-radius: 15px;
   border: 1px solid #34495E;
 }
 
@@ -66,17 +67,35 @@ h1, h2, h3, h4{
   display: flex;
 }
 
-#chart_edu{
-  float: left;
+#chart {
+  overflow-y: scroll;
 }
 
-#chart_pol{
-  float: center;
+#chart {
+  background: #eee;
+  padding: 3px;
 }
 
-.float-right {
+#chart div {
+  width: 0;
+  transition: all 1s ease-out;
+  -moz-transition: all 1s ease-out;
+  -webkit-transition: all 1s ease-out;
+}
+
+#chart div {
+  height: 30px;
+  font: 15px;
+  background-color: #006dcc;
+  text-align: right;
+  padding: 3px;
+  color: white;
+  box-shadow: 2px 2px 2px gray;
+}
+
+/* .float-right {
   margin-right: auto;
-}
+} */
 
 /* .container * {
     padding: 10px;

@@ -5,63 +5,81 @@
       <title>ScoopTube</title>
        <link rel="stylesheet" type = "text/css" href="static/css/style.css" />
 
-
     </head>
           <body ng-controller="ScoopTubeController">
                <div id = "container">
+
                     <div id = "header">
                       <img src='static/ScoopTube-white-small.png'/>
-                         <!-- <h1>video digest</h1> -->
                     </div>
+
                         <div id = "content">
-                              (SKL 0.19.2) Enter a YouTube URL to run a content analysis. <hr/>
-                                <!-- text entry form, passes variable 'ytID' to app.py -->
-                                <form role="form" ng-submit="getResults()">
-                                  <div class="form-group">
-                                    <input type="text" ng-model="url" name="url" class="form-control" id="url-box" placeholder="Enter URL..." style="max-width: 300px;">
-                                    <!-- <input type="text" name="ytID" placeholder="Enter youtube URL" style="max-width: 300px;" autofocus required> -->
+                          Enter  YouTube URL to run content analysis. Will take about half as long as the video length, unless analysis was previously run. <hr/>
+                            <!-- text entry form, passes variable 'url' to app.py -->
+                            <form role="form" ng-submit="getResults()">
+                              <div class="form-group">
+                                <input type="text" ng-model="url" name="url" class="form-control" id="url-box" placeholder="Enter YouTube URL..." style="max-width: 300px;">
+                              </div>
+                                {% raw %}
+                                <button type="submit" class="btn btn-primary"
+                                ng-disabled="loading">{{ submitButtonText }}</button>
+                                {% endraw %}
+                            </form>
+                              <div class="alert alert-danger" role="alert" ng-show='urlerror'>
+                                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                <span class="sr-only">Error:</span>
+                                <span>There was an error submitting your URL.<br>
+                                Please check to make sure it is valid before trying again.</span>
+                              </div>
+                            <br>
+
+                            <!-- Show Pacman while background processes are loading -->
+                            <img class="col-sm-3 col-sm-offset-4" src="{{ url_for('static',
+filename='spinner.gif') }}" ng-show="loading">
+
+
+                            <div id="results" ng-show="outcomes">
+                                  <div id = "left">
+
+                                            <!-- Shows outcomes only if $scope.outcomes is available  -->
+                                            <h3> Video Title: {{ '{{outcomes["title"]}}' }}</h3><br><hr/>
+
+                                              <h4>Topics found</h4>
+                                              <p>{{ '{{outcomes["topics_found"]}}' }}</p>
+
+                                              <h4>Bad Words</h4>
+                                              <p>{{ '{{outcomes["bw_result"]}}' }}</p><hr/>
+
+                                          <h4>Partial transcript</h4>
+                                          <p>{{ '{{outcomes["partial_transcript"]}}' }}
                                   </div>
-                                    {% raw %}
-                                    <button type="submit" class="btn btn-primary"
-                                    ng-disabled="loading">{{ submitButtonText }}</button>
-                                    {% endraw %}
-                                </form><br>
+                                  <div id = "right">
 
-                                <div>
-                                  <h2>Outcomes</h2>
-                                  <br>
+                                          <h4>"Seriousness": {{ '{{outcomes["edu"]/-100 | number:2}}' }}</h4><br>
+                                           <!-- <p>Outcome is: {{ '{{outcomes["edu"]/-100 | number:2}}' }} <br> -->
+                                             From -1 (most certain to be shallow) to 1 (most certain to be educational).</p>
 
+                                           <h4>Political bias: {{ '{{outcomes["pol"]/100 | number:2}}' }}</h4><br>
+                                            <!-- <p>Outcome is: {{ '{{outcomes["pol"]/100 | number:2}}' }} <br> -->
+                                               From -1 (most certain to be left-leaning) to 1 (most certain to be right-leaning).</p><hr/>
 
-                                  <div id="results">
+                                            <h4>Audio transcript vibe: {{ '{{outcomes["t_sentiment"] | number:2}}' }}</h4><br>
+                                            <!-- <p>Score: {{ '{{outcomes["t_sentiment"] | number:2}}' }} <br> -->
+                                               From -1 (most negative) to 1 (most positive).</p>
 
-                                      <h4>Info vs Shallow outcome</h4>
-                                       <p>Outcome is: {{ '{{outcomes["edu"]}}' }} <br> Negative is informational, positive shallow.</p>
+                                            <h4>Comment section vibe: {{ '{{outcomes["c_sentiment"] | number:2}}' }}</h4><br>
+                                            <!-- <p>Score: {{ '{{outcomes["c_sentiment"] | number:2}}' }} <br> -->
+                                               From -1 (most negative) to 1 (most positive).</p>
+                                   </div>
+                                </div>
 
-                                       <h4>Political bias outcome</h4>
-                                        <p>Outcome is: {{ '{{outcomes["pol"]}}' }} <br> Negative is left, positive right.</p><hr/>
+                                      </div>
+                                      <div id = "footer">
+                                          Insight Data Science Project, &copy; Daniel B. Zurek, 2018
+                                      </div>
+                                 </div>
 
-                                  </div>
-
-                                    {% raw %}
-                                  <div>
-                                    <h4>Bad Words</h4>
-                                    <p>{{ outcomes['bw_result'] }}</p>
-                                    {% endraw %}
-                                  </div><hr/>
-
-                                  <div>
-                                    <h4>Audio transcript sentiment</h4>
-                                    <p>Sentiment score: {{ '{{outcomes["t_sentiment"]}}' }}.</p>
-                                    <h4>Comments sentiment</h4>
-                                    <p>Sentiment score: {{ '{{outcomes["c_sentiment"]}}' }}.</p>
-                                  </div> <hr/>
-
-
-                        </div>
-                    <div id = "footer">
-                        Insight Data Science Project, &copy; Daniel B. Zurek, 2018
-                    </div>
-               </div>
+               <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
                <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
                <script src="{{ url_for('static', filename='main.js') }}"></script>
           </body>
