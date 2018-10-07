@@ -21,7 +21,7 @@ def list_blobs(bucket_name):
     return(file_list)
 
 
-def youtube_to_gc(yt_id):
+def youtube_to_gc(yt_id, limit = True):
     """Downloads audio for youtube url, transforms to mono wave file, uploads to GC bucket"""
 
     url = 'https://www.youtube.com/watch?v=' + yt_id
@@ -34,6 +34,14 @@ def youtube_to_gc(yt_id):
 
     # Transform
     clip =  AudioSegment.from_file(filename + ".mp4")
+    duration = len(clip)
+
+
+    if limit:
+        if duration > 900000:
+            print("video length over limit, cropping.")
+            clip = clip[0:900000]
+
     clip = clip.set_channels(1) # convert to mono for GCS
     clip.export(filename + '.wav', format='wav')
     print("YouTube audio mono created")

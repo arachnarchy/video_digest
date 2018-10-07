@@ -14,7 +14,7 @@
                     </div>
 
                         <div id = "content">
-                          Enter  YouTube URL to run content analysis. Will take about half as long as the video length, unless analysis was previously run. <hr/>
+                          Enter  YouTube URL to run content analysis. Will take about half as long as the video's length, unless analysis was previously run. <hr/>
                             <!-- text entry form, passes variable 'url' to app.py -->
                             <form role="form" ng-submit="getResults()">
                               <div class="form-group">
@@ -45,7 +45,7 @@ filename='spinner.gif') }}" ng-show="loading">
                                             <h3> Video Title: {{ '{{outcomes["title"]}}' }}</h3><br><hr/>
 
                                               <h4>Topics found</h4>
-                                              <p>{{ '{{outcomes["topics_found"]}}' }}</p>
+                                              <p><strong style="color:blue;">{{ '{{outcomes["topics_found"]}}' }}</strong></p>
 
                                               <h4>Bad Words</h4>
                                               <p>{{ '{{outcomes["bw_result"]}}' }}</p><hr/>
@@ -54,22 +54,24 @@ filename='spinner.gif') }}" ng-show="loading">
                                           <p>{{ '{{outcomes["partial_transcript"]}}' }}
                                   </div>
                                   <div id = "right">
+                                          {% raw %}
+                                          <div style="text-align:center">
+                                          <iframe width="560" height="315" ng-src="{{outcomes['youtube_url'] | trusted}}" frameborder="0"></iframe>
+                                          {% endraw %}
+                                          </div><br><hr/>
 
-                                          <h4>"Seriousness": {{ '{{outcomes["edu"]/-100 | number:2}}' }}</h4><br>
-                                           <!-- <p>Outcome is: {{ '{{outcomes["edu"]/-100 | number:2}}' }} <br> -->
-                                             From -1 (most certain to be shallow) to 1 (most certain to be educational).</p>
+                                          <h4>Audio transcript vibe: {{ '{{outcomes["t_sentiment"] | number:2}}' }}</h4>
+                                             <p>From -1 (most negative) to 1 (most positive).</p>
 
-                                           <h4>Political bias: {{ '{{outcomes["pol"]/100 | number:2}}' }}</h4><br>
-                                            <!-- <p>Outcome is: {{ '{{outcomes["pol"]/100 | number:2}}' }} <br> -->
-                                               From -1 (most certain to be left-leaning) to 1 (most certain to be right-leaning).</p><hr/>
+                                          <h4>Comment section vibe: {{ '{{outcomes["c_sentiment"] | number:2}}' }}</h4>
+                                             <p>From -1 (most negative) to 1 (most positive).</p><hr/>
 
-                                            <h4>Audio transcript vibe: {{ '{{outcomes["t_sentiment"] | number:2}}' }}</h4><br>
-                                            <!-- <p>Score: {{ '{{outcomes["t_sentiment"] | number:2}}' }} <br> -->
-                                               From -1 (most negative) to 1 (most positive).</p>
+                                          <h4>"Seriousness": {{ '{{outcomes["edu"]/-100 | number:2}}' }}</h4>
+                                             <p>From -1 (most certain to be shallow) to 1 (most certain to be educational).</p>
 
-                                            <h4>Comment section vibe: {{ '{{outcomes["c_sentiment"] | number:2}}' }}</h4><br>
-                                            <!-- <p>Score: {{ '{{outcomes["c_sentiment"] | number:2}}' }} <br> -->
-                                               From -1 (most negative) to 1 (most positive).</p>
+                                           <h4>Political bias (if relevant): {{ '{{outcomes["pol"]/100 | number:2}}' }}</h4>
+                                               <p>From -1 (most certain to be left-leaning) to 1 (most certain to be right-leaning).</p>
+
                                    </div>
                                 </div>
 

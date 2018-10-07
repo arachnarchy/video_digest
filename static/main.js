@@ -2,9 +2,9 @@
 
   'use strict';
 
-  angular.module('ScoopTubeApp', [])
+  var app = angular.module('ScoopTubeApp', [])
 
-  .controller('ScoopTubeController', ['$scope', '$log', '$http', '$timeout',
+  app.controller('ScoopTubeController', ['$scope', '$log', '$http', '$timeout',
     function($scope, $log, $http, $timeout) {
 
     $scope.submitButtonText = 'Submit';
@@ -68,5 +68,9 @@
     }
 
   }])
- 
+      app.filter('trusted', ['$sce', function ($sce) {
+        return function(url) {
+            return $sce.trustAsResourceUrl(url);
+        };
+    }]);
 }());

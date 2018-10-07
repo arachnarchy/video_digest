@@ -20,12 +20,13 @@ def scoop(youtube_id):
 
     results = {}
     results['youtube_id'] = youtube_id
-    results['youtube_url'] = 'https://www.youtube.com/watch?v=' + youtube_id
+    results['youtube_url'] = 'https://www.youtube.com/embed/' + youtube_id
     filename = youtube_id + '.wav'
 
     # If not already in bucket: download audio, make .wav, upload to GC
     gc_files = list_blobs('audio_a')
     if 'tests/' + filename not in gc_files:
+        print("Downloading youtube audio.")
         youtube_to_gc(youtube_id)
 
     # If no local transcript available, transcribe audio in GC bucket
@@ -56,7 +57,7 @@ def scoop(youtube_id):
     t_sentiment = round(t_sentiment, 3) + 0.0000001
     results['t_sentiment'] = t_sentiment
 
-    sentiment_plot(t_sentiment, t_magnitude_n, 'sentiment_t.png')
+    # sentiment_plot(t_sentiment, t_magnitude_n, 'sentiment_t.png')
 
     # BADWORDS in transcript ###############################################
     bws, bwc, bwp = bad_word_finder(transcript)
@@ -67,7 +68,7 @@ def scoop(youtube_id):
     c_magnitude_n = round(c_magnitude / len(vid_data['comments']), 5)
     c_sentiment = round(c_sentiment, 3) + 0.0000001
     results['c_sentiment'] = c_sentiment
-    sentiment_plot(c_sentiment, c_magnitude_n, 'sentiment_c.png')
+    # sentiment_plot(c_sentiment, c_magnitude_n, 'sentiment_c.png')
 
     # TF-IDF on transcript #################################################
     cat_edu, prob_edu = classify_tfidf(transcript, 'edu')
@@ -75,14 +76,14 @@ def scoop(youtube_id):
         edu = prob_edu * (-100)
     else: edu = prob_edu * 100
     results['edu'] = edu
-    axis_plot(edu, 'Info', 'Shallow', 'edu.png')
+    # axis_plot(edu, 'Info', 'Shallow', 'edu.png')
 
     cat_pol, prob_pol = classify_tfidf(transcript, 'pol')
     if cat_pol == 'left':
         pol = prob_pol * (-100)
     else: pol = prob_pol * 100
     results['pol'] = pol
-    axis_plot(pol, 'Left', 'Right', 'pol.png')
+    # axis_plot(pol, 'Left', 'Right', 'pol.png')
 
     results = json.dumps(results)
 
