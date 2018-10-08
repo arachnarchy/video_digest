@@ -14,7 +14,7 @@
                     </div>
 
                         <div id = "content">
-                          Enter  YouTube URL to run content analysis. Will take about half as long as the video's length, unless analysis was previously run. <hr/>
+                          Enter YouTube URL to run content analysis. Will take about half as long as the video's length, unless analysis was previously run. <hr/>
                             <!-- text entry form, passes variable 'url' to app.py -->
                             <form role="form" ng-submit="getResults()">
                               <div class="form-group">
@@ -60,16 +60,30 @@ filename='spinner.gif') }}" ng-show="loading">
                                           {% endraw %}
                                           </div><br><hr/>
 
-                                          <h4>Audio transcript vibe: {{ '{{outcomes["t_sentiment"] | number:2}}' }}</h4>
+                                          <h4>Audio transcript vibe: {{ '{{outcomes["t_sentiment"] | number:2}}' }} <strong ng-if="outcomes.t_sentiment > -0.2 && outcomes.t_sentiment < 0.2" style="color:orange;"> (Neutral)</strong>
+                                          <strong ng-if="outcomes.t_sentiment > 0.2 && outcomes.t_sentiment < 0.5" style="color:green;"> (Positive)</strong>
+                                          <strong ng-if="outcomes.t_sentiment < -0.2 && outcomes.t_sentiment > -0.5" style="color:red;"> (Negative)</strong>
+                                          <strong ng-if="outcomes.t_sentiment > 0.5" style="color:green;"> (Very positive)</strong>
+                                          <strong ng-if="outcomes.t_sentiment < -0.5" style="color:red;"> (Very negative)</strong>
+                                          </h4>
                                              <p>From -1 (most negative) to 1 (most positive).</p>
 
-                                          <h4>Comment section vibe: {{ '{{outcomes["c_sentiment"] | number:2}}' }}</h4>
+                                          <h4>Comment section vibe: {{ '{{outcomes["c_sentiment"] | number:2}}' }} <strong ng-if="outcomes.c_sentiment > -0.2 && outcomes.c_sentiment < 0.2" style="color:orange;"> (Neutral)</strong>
+                                          <strong ng-if="outcomes.c_sentiment > 0.2 && outcomes.c_sentiment < 0.5" style="color:green;"> (Positive)</strong>
+                                          <strong ng-if="outcomes.c_sentiment < -0.2 && outcomes.c_sentiment > -0.5" style="color:red;"> (Negative)</strong>
+                                          <strong ng-if="outcomes.c_sentiment > 0.5" style="color:green;"> (Very positive)</strong>
+                                          <strong ng-if="outcomes.c_sentiment < -0.5" style="color:red;"> (Very negative)</strong>
+                                          </h4>
                                              <p>From -1 (most negative) to 1 (most positive).</p><hr/>
 
-                                          <h4>"Seriousness": {{ '{{outcomes["edu"]/-100 | number:2}}' }}</h4>
+                                          <h4>"Seriousness": {{ '{{outcomes["edu"] | number:2}}' }} <strong ng-if="outcomes.edu > -0.5 && outcomes.edu < 0.5" style="color:orange;"> (Neutral)</strong>
+                                          <strong ng-if="outcomes.edu > 0.5" style="color:green;"> (Likely educational)</strong>
+                                          <strong ng-if="outcomes.edu < -0.5" style="color:red;"> (Likely shallow entertainment)</strong></h4>
                                              <p>From -1 (most certain to be shallow) to 1 (most certain to be educational).</p>
 
-                                           <h4>Political bias (if relevant): {{ '{{outcomes["pol"]/100 | number:2}}' }}</h4>
+                                           <h4>Political bias (if relevant): {{ '{{outcomes["pol"] | number:2}}' }} <strong ng-if="outcomes.pol > -0.5 && outcomes.pol < 0.5" style="color:orange;"> (Likely no political bias)</strong>
+                                           <strong ng-if="outcomes.pol > 0.5" style="color:red;"> (Likely right-leaning)</strong>
+                                           <strong ng-if="outcomes.pol < -0.5" style="color:blue;"> (Likely left-leaning)</strong></h4>
                                                <p>From -1 (most certain to be left-leaning) to 1 (most certain to be right-leaning).</p>
 
                                    </div>

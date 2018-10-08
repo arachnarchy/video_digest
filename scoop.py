@@ -72,16 +72,16 @@ def scoop(youtube_id):
 
     # TF-IDF on transcript #################################################
     cat_edu, prob_edu = classify_tfidf(transcript, 'edu')
-    if cat_edu == 'edu':
-        edu = prob_edu * (-100)
-    else: edu = prob_edu * 100
+    if cat_edu != 'edu':
+        edu = prob_edu * (-1)
+    else: edu = prob_edu
     results['edu'] = edu
     # axis_plot(edu, 'Info', 'Shallow', 'edu.png')
 
     cat_pol, prob_pol = classify_tfidf(transcript, 'pol')
     if cat_pol == 'left':
-        pol = prob_pol * (-100)
-    else: pol = prob_pol * 100
+        pol = prob_pol * (-1)
+    else: pol = prob_pol
     results['pol'] = pol
     # axis_plot(pol, 'Left', 'Right', 'pol.png')
 

@@ -43,6 +43,7 @@ def get_results(job_key):
 
     if job.is_finished:
         return str(job.result), 200
+          # return str(job.result), 200, render_template('test.html', result = str(job.result))
     else:
         return "Nay!", 202
 
