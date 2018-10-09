@@ -76,14 +76,14 @@ filename='spinner.gif') }}" ng-show="loading">
                                           </h4>
                                              <p>From -1 (most negative) to 1 (most positive).</p><hr/>
 
-                                          <h4>"Seriousness": {{ '{{outcomes["edu"] | number:2}}' }} <strong ng-if="outcomes.edu > -0.5 && outcomes.edu < 0.5" style="color:orange;"> (Neutral)</strong>
-                                          <strong ng-if="outcomes.edu > 0.5" style="color:green;"> (Likely educational)</strong>
-                                          <strong ng-if="outcomes.edu < -0.5" style="color:red;"> (Likely shallow entertainment)</strong></h4>
+                                          <h4>"Seriousness": {{ '{{outcomes["edu"] | number:2}}' }} <strong ng-if="outcomes.edu > -0.7 && outcomes.edu < 0.7" style="color:orange;"> (Neutral)</strong>
+                                          <strong ng-if="outcomes.edu > 0.7" style="color:green;"> (Likely educational)</strong>
+                                          <strong ng-if="outcomes.edu < -0.7" style="color:red;"> (Likely shallow entertainment)</strong></h4>
                                              <p>From -1 (most certain to be shallow) to 1 (most certain to be educational).</p>
 
-                                           <h4>Political bias (if relevant): {{ '{{outcomes["pol"] | number:2}}' }} <strong ng-if="outcomes.pol > -0.5 && outcomes.pol < 0.5" style="color:orange;"> (Likely no political bias)</strong>
-                                           <strong ng-if="outcomes.pol > 0.5" style="color:red;"> (Likely right-leaning)</strong>
-                                           <strong ng-if="outcomes.pol < -0.5" style="color:blue;"> (Likely left-leaning)</strong></h4>
+                                           <h4>Political bias: {{ '{{outcomes["pol"] | number:2}}' }} <strong ng-if="outcomes.pol > -0.7 && outcomes.pol < 0.7" style="color:orange;"> (Likely no political bias)</strong>
+                                           <strong ng-if="outcomes.pol > 0.7" style="color:red;"> (Likely right-leaning)</strong>
+                                           <strong ng-if="outcomes.pol < -0.7" style="color:blue;"> (Likely left-leaning)</strong></h4>
                                                <p>From -1 (most certain to be left-leaning) to 1 (most certain to be right-leaning).</p>
 
                                    </div>
