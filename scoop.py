@@ -8,6 +8,8 @@ def scoop(youtube_id):
     import os
     import numpy
     import six
+    from google.cloud import storage
+    from google.oauth2 import service_account
 
     import topic_via_GC
     from youtube_to_gc import youtube_to_gc, list_blobs
@@ -30,17 +32,31 @@ def scoop(youtube_id):
         youtube_to_gc(youtube_id)
 
     # If no local transcript available, transcribe audio in GC bucket
-    transcript_list = os.listdir('static/transcripts/')
+    #transcript_list = os.listdir('static/transcripts/')
+    transcript_list = list_blobs('yt_transcripts')
     if youtube_id + '_t.txt' not in transcript_list:
         audio_file = 'gs://audio_a/tests/' + filename
         t, c = transcribe_gcs(audio_file)
 
-        # save transcript to file (should be SQL)
+        # save transcript to local file and push to GC
         transcript = open("static/transcripts/" + youtube_id + "_t.txt", "w")
         transcript.write(t)
         transcript.close()
 
+        # Upload NEW
+        storage_client = storage.Client()
+        bucket = storage_client.get_bucket('yt_transcripts')
+        blob = bucket.blob(youtube_id + "_t.txt")
+        blob.upload_from_filename("static/transcripts/" + youtube_id + "_t.txt")
+        print("YouTube transcript uploaded")
+
     # CLASSIFY topic from transcript #######################################
+    # Download NEW
+    storage_client = storage.Client()
+    bucket = storage_client.get_bucket('yt_transcripts')
+    blob = bucket.blob(youtube_id + "_t.txt")
+    blob.download_to_filename("static/transcripts/" + youtube_id + "_t.txt")
+
     with open("static/transcripts/" + youtube_id + "_t.txt", 'r') as myfile:
          transcript=myfile.read().replace('\n', '')
 
